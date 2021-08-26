@@ -14,8 +14,9 @@ import string
 
 class ContentGenerator():
     def __init__(self):
-        self.checkpoint_path = 'checkpoint/content-generator-moodel.bin'
-        self.config_path = 'data/t5-base-config.json'
+        self.checkpoint_path = '../checkpoint/business-description-generator-model.bin'
+        self.config_path = '../data/t5-base-config.json'
+        self.nlp = spacy.load("en_core_web_sm")
     
     def getTokenizer(self):
         self.tokenizer = T5Tokenizer.from_pretrained('t5-base')
@@ -67,14 +68,16 @@ class ContentGenerator():
 obj = ContentGenerator()
 obj.getTokenizer()
 
-st.title("Google Ad generator")
-st.subheader("Write your company's keywords")
+st.title("Business description generator")
+st.subheader("Write keywords about a company")
+html = '<p style="color:Grey; font-size: 12px;">Eg; Pied Piper | blockchain | new internet </p>'
+st.markdown(html, unsafe_allow_html=True)
 text = st.text_input('Enter text')
 st.subheader("Generated descriptions")
 
 if len(text) > 0:
-    text = obj.getKeywords(text)
-    st.write('Keywords: ', text)
+#     text = obj.getKeywords(text)
+#     st.write('Keywords: ', text)
     output = obj.generate(text)
     
     for i in range(len(output)):
